@@ -1,5 +1,6 @@
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Movie} from '../interfaces/IMovie';
 
 interface IProps {
@@ -10,13 +11,23 @@ interface IProps {
 
 export const CardMovie = ({movie, height = 420, width = 300}: IProps) => {
   const uri = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
+  const navigation = useNavigation();
 
   return (
-    <View style={{width, height, marginHorizontal: 8}}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Detail', movie)}
+      activeOpacity={0.8}
+      style={{
+        width,
+        height,
+        marginHorizontal: 2,
+        paddingBottom: 20,
+        paddingHorizontal: 7,
+      }}>
       <View style={styles.wrapper}>
         <Image source={{uri}} style={styles.image} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -36,6 +47,5 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     borderRadius: 18,
-    resizeMode: 'stretch',
   },
 });
