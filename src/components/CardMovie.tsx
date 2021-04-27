@@ -1,16 +1,18 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 import {Movie} from '../interfaces/IMovie';
 
 interface IProps {
   movie: Movie;
+  height?: number;
+  width?: number;
 }
 
-export const CardMovie = ({movie}: IProps) => {
+export const CardMovie = ({movie, height = 420, width = 300}: IProps) => {
   const uri = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
 
   return (
-    <View style={styles.container}>
+    <View style={{width, height, marginHorizontal: 8}}>
       <View style={styles.wrapper}>
         <Image source={{uri}} style={styles.image} />
       </View>
@@ -19,10 +21,6 @@ export const CardMovie = ({movie}: IProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: 300,
-    height: 420,
-  },
   wrapper: {
     flex: 1,
     borderRadius: 18,
@@ -33,11 +31,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.24,
     shadowRadius: 7,
-    elevation: 10,
+    elevation: 9,
   },
   image: {
     flex: 1,
     borderRadius: 18,
-    resizeMode: 'contain',
+    resizeMode: 'stretch',
   },
 });
