@@ -7,30 +7,45 @@ import {
   Dimensions,
   ScrollView,
   Text,
+  ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {MovieDetails} from '../components/MovieDetails';
+import {useMoviesDetails} from '../hooks/useMovieDetails';
 import {RootStackParams} from '../navigation/StackNavigator';
 
 interface IProps extends StackScreenProps<RootStackParams, 'Detail'> {}
 
 const {height} = Dimensions.get('screen');
-export const DetailScreen = ({route}: IProps) => {
+export const DetailScreen = ({route, navigation}: IProps) => {
   const movie = route.params;
   const uri = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`;
-
+  const {isLoading, fullMovie, cast} = useMoviesDetails(movie.id);
   return (
     <ScrollView>
       <View style={styles.wrapper}>
+        {/* Poster Movie */}
         <View style={styles.imageBorder}>
           <Image source={{uri}} style={styles.image} />
         </View>
       </View>
+      {/* Title Movie */}
       <View style={styles.marginContainer}>
         <Text style={styles.subTitle}>{movie.original_title}</Text>
         <Text style={styles.title}>{movie.title}</Text>
       </View>
-      <View>
-        <Icon name="star-outline" size={20} color="gray" />
+      {/* Info Movie */}
+      {isLoading ? (
+        <ActivityIndicator color="blue" size="large" />
+      ) : (
+        <MovieDetails fullMovie={fullMovie!} cast={cast!} />
+      )}
+      {/* Go back screen main */}
+      <View style={styles.back}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-back-outline" size={40} color="#DBDBDB" />
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -71,5 +86,14 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  back: {
+    position: 'absolute',
+    zIndex: 999,
+    elevation: 9,
+    borderColor: '#DBDBDB',
+    borderWidth: 1,
+    borderRadius: 40,
+    margin: 5,
   },
 });
