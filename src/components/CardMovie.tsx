@@ -17,13 +17,7 @@ export const CardMovie = ({movie, height = 420, width = 300}: IProps) => {
     <TouchableOpacity
       onPress={() => navigation.navigate('Detail', movie)}
       activeOpacity={0.8}
-      style={{
-        width,
-        height,
-        marginHorizontal: 2,
-        paddingBottom: 20,
-        paddingHorizontal: 7,
-      }}>
+      style={{...styles.container, width, height}}>
       <View style={styles.wrapper}>
         <Image source={{uri}} style={styles.image} />
       </View>
@@ -32,6 +26,11 @@ export const CardMovie = ({movie, height = 420, width = 300}: IProps) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: 2,
+    paddingBottom: 20,
+    paddingHorizontal: 7,
+  },
   wrapper: {
     flex: 1,
     borderRadius: 18,
